@@ -9,6 +9,12 @@ from my_wifi import SSID, PASSWORD
 from services.idle_task import idle_task
 from services.serial_task import serial_task
 from services.mqtt_task import mqtt_task
+from services.http_task import http_task, http_server_task
+from services.fake_detection_task import fake_detection_task
+from services.pir_task import pir_task
+from services.led_task import led_task
+from services.presence_detection_task import presence_detection_task
+from services.adc_task import adc_task
 
 from logger import Logger
 log = Logger("main", debug_enabled=True)
@@ -49,17 +55,24 @@ async def main():
     wifi_connect()
 
     # 2) spawn threads
-    asyncio.create_task(idle_task(2))
-    asyncio.create_task(serial_task(1))
-    asyncio.create_task(mqtt_task(5))
+    asyncio.create_task(idle_task(20))
+    asyncio.create_task(serial_task(0.5))
+    asyncio.create_task(mqtt_task(1))
+    asyncio.create_task(http_task(1))
+    #asyncio.create_task(fake_detection_task(120))
+    asyncio.create_task(pir_task(5))
+    asyncio.create_task(led_task(0.5))
+    asyncio.create_task(presence_detection_task(0.5))
+    asyncio.create_task(adc_task(1))
 
     # 3) main loop can do supervision / LEDs / watchdog
     led = machine.Pin("LED", machine.Pin.OUT)
 
-    while True:
-        led.toggle()
-        #wdt.feed()
-        await asyncio.sleep(1)
+    await http_server_task(port=80)
+    #while True:
+    #    led.toggle()
+    #    #wdt.feed()
+    #    await asyncio.sleep(1)
 
 
 if __name__ == "__main__":

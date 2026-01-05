@@ -4,6 +4,9 @@ import umqtt.config
 
 from logger import Logger
 
+# ---- Global variables ----
+import shared_variables as var
+
 # Constants for MQTT Topics
 MQTT_TOPIC = 'test'
 
@@ -36,13 +39,39 @@ async def mqtt_task(period = 1.0):
         log.error('Error connecting to MQTT:', e)
         raise  # Re-raise the exception to see the full traceback
 
+    occupancy_detected_prev = None
+    active_prev = None
+    fault_prev = None
+    low_battery_prev = None
+    tampered_prev = None
+
     #Run
     while True:
         log.debug("Task is running")
-        client.publish("pico_motion/motion_detected", "1")
-        client.publish("pico_motion/occupancy_detected", "1")
-        client.publish("pico_motion/active", "1")
-        client.publish("pico_motion/fault", "0")
-        client.publish("pico_motion/low_battery", "0")
-        client.publish("pico_motion/tampered", "0")
+        
+        occupancy_detected_temp = var.occupancy_detected
+        if occupancy_detected_temp != occupancy_detected_prev:
+            occupancy_detected_prev = occupancy_detected_temp
+            client.publish("pico_motion/occupancy_detected", str(int(occupancy_detected_temp)))
+        
+        active_temp = var.active
+        if active_temp != active_prev:
+            active_prev = active_temp
+            client.publish("pico_motion/active", str(int(active_temp)))
+        
+        fault_temp = var.fault
+        if fault_temp != fault_prev:
+            fault_prev = fault_temp
+            client.publish("pico_motion/fault", str(int(fault_temp)))
+
+        low_battery_temp = var.low_battery
+        if low_battery_temp != low_battery_prev:
+            low_battery_prev = low_battery_temp
+            client.publish("pico_motion/low_battery", str(int(low_battery_temp)))
+            
+        tampered_temp = var.tampered
+        if tampered_temp != tampered_prev:
+            tampered_prev = tampered_temp
+            client.publish("pico_motion/tampered", str(int(tampered_temp)))
+
         await asyncio.sleep(period)

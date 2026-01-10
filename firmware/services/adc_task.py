@@ -22,7 +22,7 @@ def voltage_to_lux(voltage):
 
 async def adc_task(period = 1.0):
     #Init
-    log = Logger("adc", debug_enabled=True)
+    log = Logger("adc", debug_enabled=False)
 
     adc = ADC(26)   # GPIO26 = ADC0
 
@@ -33,6 +33,7 @@ async def adc_task(period = 1.0):
         lux = voltage_to_lux(voltage)
         
         log.info("ADC voltage:", voltage, "Lux:", lux)
+        log.debug("ADC voltage:", voltage, "Lux:", lux)
                 
         await asyncio.sleep(period)
 

@@ -8,7 +8,7 @@ import shared_variables as var
 
 async def pir_task(period = 1.0):
     #Init
-    log = Logger("pir", debug_enabled=True)
+    log = Logger("pir", debug_enabled=False)
     
     DEBOUNCE_MS = 30
     _last_ms = 0
@@ -23,7 +23,7 @@ async def pir_task(period = 1.0):
         # Read current level inside the IRQ
         level = p.value()   # 0 or 1
         var.pir_detected = bool(level)
-        log.info("EDGE! level =", level, "at", now, "ms")
+        log.debug("EDGE! level =", level, "at", now, "ms")
 
     pir_in = Pin(2, Pin.IN)
     

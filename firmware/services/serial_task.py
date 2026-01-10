@@ -8,7 +8,7 @@ import shared_variables as var
 
 async def serial_task(period = 1.0):
     #Init
-    log = Logger("uart", debug_enabled=True)
+    log = Logger("uart", debug_enabled=False)
     
     uart = UART(
         0,
@@ -27,7 +27,7 @@ async def serial_task(period = 1.0):
         
         ld2410.read()
         
-        log.info("mmWave detection:", ld2410.detected)
+        log.debug("mmWave detection:", ld2410.detected)
         var.mm_wave_detected = ld2410.detected
         
         await asyncio.sleep(period)

@@ -55,12 +55,12 @@ async def main():
     wifi_connect()
 
     # 2) spawn threads
-    asyncio.create_task(idle_task(20))
+    asyncio.create_task(idle_task(60))
     asyncio.create_task(serial_task(0.5))
-    asyncio.create_task(mqtt_task(1))
-    asyncio.create_task(http_task(1))
+    asyncio.create_task(mqtt_task(0.5))
+    asyncio.create_task(http_task(5))
     #asyncio.create_task(fake_detection_task(120))
-    asyncio.create_task(pir_task(5))
+    asyncio.create_task(pir_task(1))
     asyncio.create_task(led_task(0.5))
     asyncio.create_task(presence_detection_task(0.5))
     asyncio.create_task(adc_task(1))
@@ -75,8 +75,11 @@ async def main():
     #    await asyncio.sleep(1)
 
 
-if __name__ == "__main__":
+def start():
     try:
         asyncio.run(main())
     finally:
-        asyncio.new_event_loop()
+        asyncio.new_event_loop()  # important on MicroPython
+
+# Auto-start when executed as script
+start()

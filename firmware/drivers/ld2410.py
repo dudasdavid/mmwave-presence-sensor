@@ -233,7 +233,7 @@ class LD2410():
         Returns True on success, False otherwise. Also, if it fails,
         data attributes will be set to None.
         """
-        for failure_count in range(30):
+        for failure_count in range(100):
 
             if not self.engineering_mode and self.engineering_always:
                 self.enable_engineering_mode()

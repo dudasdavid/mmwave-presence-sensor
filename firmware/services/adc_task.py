@@ -32,7 +32,8 @@ async def adc_task(period = 1.0):
         voltage = value * 3.3 / 65535
         lux = voltage_to_lux(voltage)
         
-        log.info("ADC voltage:", voltage, "Lux:", lux)
+        var.lux = lux
+        
         log.debug("ADC voltage:", voltage, "Lux:", lux)
                 
         await asyncio.sleep(period)

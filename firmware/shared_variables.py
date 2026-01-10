@@ -18,6 +18,9 @@ active = True
 fault = False
 low_battery = False
 tampered = False
+battery_level = 69
 
 pir_detected = False
 mm_wave_detected = False
+
+lux = 0.001

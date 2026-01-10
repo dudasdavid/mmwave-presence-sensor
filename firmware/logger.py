@@ -11,7 +11,7 @@ class Logger:
 
     def _timestamp(self):
         # short timestamp HH:MM:SS
-        t = time.localtime()
+        t = time.localtime(time.time() + var.UTC_OFFSET)
         return "{:02}:{:02}:{:02}".format(t[3], t[4], t[5])
 
     def _print(self, level, *args):

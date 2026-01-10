@@ -11,6 +11,8 @@ HTTP_STATE = {
 
 _http_lock = asyncio.Lock()
 
+UTC_OFFSET = 1 * 3600
+
 occupancy_detected = False
 active = True
 fault = False

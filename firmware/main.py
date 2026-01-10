@@ -58,7 +58,7 @@ async def main():
     asyncio.create_task(idle_task(60))
     asyncio.create_task(serial_task(0.5))
     asyncio.create_task(mqtt_task(0.5))
-    asyncio.create_task(http_task(5))
+    #asyncio.create_task(http_task(5))
     #asyncio.create_task(fake_detection_task(120))
     asyncio.create_task(pir_task(1))
     asyncio.create_task(led_task(0.5))
@@ -68,11 +68,11 @@ async def main():
     # 3) main loop can do supervision / LEDs / watchdog
     led = machine.Pin("LED", machine.Pin.OUT)
 
-    await http_server_task(port=80)
-    #while True:
-    #    led.toggle()
+    #await http_server_task(port=80)
+    while True:
+        led.toggle()
     #    #wdt.feed()
-    #    await asyncio.sleep(1)
+        await asyncio.sleep(1)
 
 
 def start():

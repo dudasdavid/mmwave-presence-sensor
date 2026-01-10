@@ -59,6 +59,17 @@ async def presence_detection_task(period = 1.0):
                     # refresh hold window on repeated PIR hits
                     last_on_ms = now
 
+            # mmWave triggers immediately (fast path)
+            if mmw:
+                if not occupancy:
+                    occupancy = True
+                    last_on_ms = now
+                    var.occupancy_detected = True
+                    log.info("Occupancy ON (mmWave)")
+                else:
+                    # refresh hold window on repeated mmWave hits
+                    last_on_ms = now
+
             # If already occupied, keep it on for at least hold_on_s
             if occupancy:
                 on_for_ms = _ms_since(last_on_ms, now)

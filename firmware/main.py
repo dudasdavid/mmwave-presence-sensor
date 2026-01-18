@@ -1,5 +1,6 @@
 import uasyncio as asyncio
 import machine
+import time
 
 import network
 import socket
@@ -82,4 +83,8 @@ def start():
         asyncio.new_event_loop()  # important on MicroPython
 
 # Auto-start when executed as script
-start()
+#start()
+
+if __name__ == "__main__":
+    start()
+    
